@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Screen 5</title>
+    <script src="script5.js"></script>
+    <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        body
+        {
+            background: slategray;
+            color: white;
+        }
+        button
+        {
+            background-color: black;
+            border: none;
+            color: white;
+            padding: 20px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            font-family:'Courier New', Courier, monospace;
+            margin: 10px 10px;
+            cursor: pointer;
+        }
+        #stopwatch
+        {
+            background-color: antiquewhite;
+            font-size: 30px;
+            text-align:center;
+            color: black;
+            position: absolute;
+            font-family:'Courier New', Courier, monospace;
+            top: 150px;
+            left: 1200px;
+            transform: translate(-50%, -55%);
+        }
+        #present{
+            width: 50px;
+            border: 0px;
+        }
+        #voting{
+            width: 50px;
+            border: 0px;
+        }
+        #drop{
+            background-color:antiquewhite;
+            width: 200px;
+            height: 50px;
+            font-size: 20px;
+            font-family:'Courier New', Courier, monospace;
+        }
+        #add{
+            background-color: black;
+            border: none;
+            color: white;
+            padding: 20px 50px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            font-family:'Courier New', Courier, monospace;
+            margin: 10px 135px;
+            cursor: pointer;
+        }
+        #add1{
+            background-color: black;
+            border: none;
+            color: white;
+            padding: 20px 50px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            font-family:'Courier New', Courier, monospace;
+            margin: 10px 110px;
+            cursor: pointer;
+        }
+        #container{
+            width: 425px;
+            position:absolute;
+            top:375px;
+            left: 10px;
+            background-color: antiquewhite;
+        }
+        #disp{
+            width: 425px;
+            position:absolute;
+            top:10px;
+            right: 10px;
+            background-color: antiquewhite;
+        }
+        #stage{
+            width: 425px;
+            position:absolute;
+            top:300px;
+            left: 10px;
+            background-color: antiquewhite;
+        }
+        .letter{
+            background-color: gray; 
+            font-family:'Courier New', Courier, monospace;
+            color: black;
+            padding: 5px;
+            margin: 5px;
+            width: 400px;
+        }
+        #btns{
+            background-color: black;
+            border: none;
+            color: white;
+            padding: 7px 40px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            font-family:'Courier New', Courier, monospace;
+            margin: 10px 110px;
+            cursor: pointer;
+        }
+        #name{
+            width: 80%;
+            background-color:antiquewhite ;
+        }
+        #proposer{
+            width: 70%;
+            background-color:antiquewhite ;
+        }
+        #duration{
+            width: 37%;
+            background-color:antiquewhite ;
+        }
+        #psk{
+            width: 32%;
+            background-color:antiquewhite ;
+        }
+    </style>
+</head>
+<body>
+    <div id="container"></div>
+    <div id="stopwatch"></div>
+    <div id="disp"></div>
+    <div id="stage"></div>
+    <script type="text/babel">
+        var txt, rv;
+        class Letter extends React.Component 
+                {
+                    render() 
+                    {
+                        return <div className="letter">
+                            <h4>{this.props.children}</h4>
+                        </div>;
+                    }
+                }
+        class Timer extends React.Component {
+                    constructor(props){
+                    super(props);
+                        this.state={seconds:0};
+                    }
+                    onStart=()=>{
+                        this.setState({seconds:this.state.seconds+1});
+                    }
+                    timer=()=>{
+                        this.f=setInterval(this.onStart,1000);
+                        document.getElementById('btn').disabled=true;
+                    }
+                    onPause=()=>{
+                        clearInterval(this.f);
+                    }
+                    onReset=()=>{
+                        clearInterval(this.f);
+                        document.getElementById('btn').disabled=false;
+                        this.setState({seconds:0})
+                    }
+                    render(){
+                        return(
+                            <div>
+                                <h1>{this.state.seconds}</h1>
+                                <button id="btn" onClick={this.timer}>Start</button>
+                                <button onClick={this.onPause}>Stop</button>
+                                <button onClick={this.onReset}>Reset</button>
+                            </div>
+                        )
+                    }
+                }
+        class Motions extends React.Component {
+            constructor(props) {
+                super(props);
+                this.state = {
+                    name: null,
+                    proposer: null,
+                    duration: null,
+                    pst: null,
+                };
+                this.handleSubmit = this.handleSubmit.bind(this);
+            }
+            handleChangeName = event => {
+                this.setState({
+                    name: event.target.value,
+                });
+            }
+            handleChangeProposer = event => {
+                this.setState({
+                    proposer: event.target.value,
+                });
+            }
+            handleChangeDuration = event => {
+                this.setState({
+                    duration: event.target.value,
+                });
+            }
+            handleChangePst = event => {
+                this.setState({
+                    pst: event.target.value,
+                });
+            }
+            handleSubmit = function (event) {
+                ReactDOM.render
+                (
+                    <div>
+                        <Letter>Name:{this.state.name} <br/>
+                                Duration(in min): {this.state.duration}<br/>
+                        </Letter>
+                    </div>,
+                    document.querySelector('#stage')
+                );
+                event.preventDefault();
+            }
+            render() {
+                return (
+                    <form onSubmit={this.handleSubmit}>
+                    <Letter>
+                    <label for="countries">COUNTRY:</label>
+                    <select name="countries" id="drop">
+                    <option value="Afghanistan">Afghanistan</option>
+                    <option value="Aland Islands">Aland Islands</option>
+                    <option value="Albania">Albania</option>
+                    <option value="Algeria">Algeria</option>
+                    <option value="American Samoa">American Samoa</option>
+                    <option value="Andorra">Andorra</option>
+                    <option value="Anguilla">Anguilla</option>
+                    <option value="Antigua">Antigua</option>
+                    <option value="Argentina">Argentina</option>
+                    <option value="Armenia">Armenia</option>
+                    <option value="Aruba">Aruba</option>
+                    <option value="Australia">Australia</option>
+                    <option value="Austria">Austria</option>
+                    <option value="Azerbaijan">Azerbaijan</option>
+                    <option value="Bahamas">Bahamas</option>
+                    <option value="Bahrain">Bahrain</option>
+                    <option value="Bangladesh">Bangladesh</option>
+                    <option value="Barbados">Barbados</option>
+                    <option value="Belarus">Belarus</option>
+                    <option value="Belgium">Belgium</option>
+                    <option value="Belize">Belize</option>
+                    <option value="Benin">Benin</option>
+                    <option value="Bermuda">Bermuda</option>
+                    <option value="Bhutan">Bhutan</option>
+                    <option value="Bolivia">Bolivia</option>
+                    <option value="Bosnia">Bosnia</option>
+                    <option value="Botswana">Botswana</option>
+                    <option value="Bouvet Island">Bouvet Island</option>
+                    <option value="Brazil">Brazil</option>
+                    <option value="British Virgin Islands">British Virgin Islands</option>
+                    <option value="Brunei">Brunei</option>
+                    <option value="Bulgaria">Bulgaria</option>
+                    <option value="Burkina Faso">Burkina Faso</option>
+                    <option value="Burundi">Burundi</option>
+                    <option value="Caicos Islands">Caicos Islands</option>
+                    <option value="Cambodia">Cambodia</option>
+                    <option value="Cameroon">Cameroon</option>
+                    <option value="Canada">Canada</option>
+                    <option value="Cape Verde">Cape Verde</option>
+                    <option value="Cayman Islands">Cayman Islands</option>
+                    <option value="Central African Republic">Central African Republic</option>
+                    <option value="Chad">Chad</option>
+                    <option value="Chile">Chile</option>
+                    <option value="China">China</option>
+                    <option value="Christmas Island">Christmas Island</option>
+                    <option value="Cocos Islands">Cocos Islands</option>
+                    <option value="Colombia">Colombia</option>
+                    <option value="Comoros">Comoros</option>
+                    <option value="Congo Brazzaville">Congo Brazzaville</option>
+                    <option value="Congo">Congo</option>
+                    <option value="Cook Islands">Cook Islands</option>
+                    <option value="Costa Rica">Costa Rica</option>
+                    <option value="Cote Divoire">Cote Divoire</option>
+                    <option value="Croatia">Croatia</option>
+                    </select> 
+                    </Letter>
+                    <Letter>
+                    <label>
+                    Duration(in sec):
+                    </label>
+                    <input value={this.state.duration} onChange={this.handleChangeDuration} type="text" id="duration"></input>
+                    </Letter>
+                    <Letter>
+                    <input type="submit" value="QUEUE" id="btns"/>
+                    </Letter>
+                    </form>
+                )
+            }
+        }
+        ReactDOM.render(
+            <Timer/>,
+            document.querySelector('#stopwatch')
+        );
+        ReactDOM.render(
+            <Motions/>,
+            document.querySelector('#container')
+        );
+    </script>
+</body>
+</html>
